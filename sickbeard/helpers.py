@@ -487,6 +487,8 @@ def sanitizeSceneName (name, ezrss=False):
         bad_chars = ",:()'!?"
     # ezrss leaves : and ! in their show names as far as I can tell
     else:
+	if name[-1] == ")":
+		name = name[:-6]
         bad_chars = ",()'?"
 
     # strip out any bad chars
