@@ -30,7 +30,7 @@ def fixStupidEncodings(x, silent=False):
         try:
             return x.decode(sickbeard.SYS_ENCODING)
         except UnicodeDecodeError:
-            logger.log(u"Unable to decode value: "+repr(x), logger.ERROR)
+            logger.log(u"Unable to decode value: "+repr(x), logger.DEBUG)
             return None
     elif type(x) == unicode:
         return x
