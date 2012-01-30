@@ -38,6 +38,17 @@ def processDir (dirName, nzbName=None, recurse=False):
 
     returnStr = ''
 
+    # unrar subfolder
+    returnStr += logHelper(u"Searching for rar items " +dirName, logger.DEBUG)
+    for path, dirs, files in os.walk(os.path.abspath(dirName)):
+        for d in dirs:
+            for filename in files:
+                if(os.path.join(path,filename)[-4:]==".rar"):
+                    returnStr += logHelper(u"Extracting " +filename, logger.DEBUG)
+                    if(os.system("unrar x \"" + os.path.join(path, filename) + "\" " +dirName)):
+                        os.system("rm \"" + os.path.join(path, filename) + "\"")
+                        returnStr += logHelper(u"Extracted " +filename, logger.DEBUG)
+
     returnStr += logHelper(u"Processing folder "+dirName, logger.DEBUG)
 
     # if they passed us a real dir then assume it's the one we want
