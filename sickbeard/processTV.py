@@ -44,7 +44,7 @@ def processDir (dirName, nzbName=None, recurse=False):
         for filename in files:
             if(os.path.join(path,filename)[-4:]==".rar"):
                 returnStr += logHelper(u"Extracting " +filename, logger.DEBUG)
-                if(os.system("unrar x \"" + os.path.join(path, filename) + "\" " +dirName)==0):
+                if(os.system("unrar x -p- \"" + os.path.join(path, filename) + "\" " +dirName)==0):
                     os.system("rm \"" + os.path.join(path, filename) + "\"")
                     returnStr += logHelper(u"Extracted " +filename, logger.DEBUG)
 
