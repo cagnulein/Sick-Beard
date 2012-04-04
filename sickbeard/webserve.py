@@ -315,6 +315,7 @@ class Manage:
             epCounts[Overview.QUAL] = 0
             epCounts[Overview.GOOD] = 0
             epCounts[Overview.UNAIRED] = 0
+            epCounts[Overview.SNATCHED_PROPER] = 0
 
             sqlResults = myDB.select("SELECT * FROM tv_episodes WHERE showid = ? ORDER BY season*1000+episode DESC", [curShow.tvdbid])
 
@@ -2132,6 +2133,7 @@ class Home:
         epCounts[Overview.QUAL] = 0
         epCounts[Overview.GOOD] = 0
         epCounts[Overview.UNAIRED] = 0
+        epCounts[Overview.SNATCHED_PROPER] = 0
 
         for curResult in sqlResults:
 
