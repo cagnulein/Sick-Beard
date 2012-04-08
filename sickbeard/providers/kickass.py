@@ -53,7 +53,7 @@ class KICKASSProvider(generic.TorrentProvider):
         return sickbeard.KICKASS
         
     def imageName(self):
-        return 'kickass.png'
+        return 'kickass.gif'
     
     def findSeasonResults(self, show, season):
         
