@@ -302,8 +302,14 @@ def findEpisode(episode, manualSearch=False):
         logger.log(u"No NZB/Torrent providers found or enabled in the sickbeard config. Please check your settings.", logger.ERROR)
 
     bestResult = pickBestResult(foundResults)
+   
+    if bestResult:
+        foundResults.remove(bestResult) # Remove best result so we can return the rest by themselves
 
-    return bestResult
+    if len(foundResults) == 0:
+        foundResults = None 
+
+    return (bestResult, foundResults)
 
 def findSeason(show, season):
 

@@ -90,25 +90,42 @@ class ManualSearchQueueItem(generic_queue.QueueItem):
 
         logger.log("Searching for download for " + self.ep_obj.prettyName(True))
 
-        foundEpisode = search.findEpisode(self.ep_obj, manualSearch=True)
+        (bestEpisode, otherEpisodes) = search.findEpisode(self.ep_obj, manualSearch=True)
         result = False
 
-        if not foundEpisode:
+        if not bestEpisode:
             ui.notifications.message('No downloads were found', "Couldn't find a download for <i>%s</i>" % self.ep_obj.prettyName(True))
             logger.log(u"Unable to find a download for "+self.ep_obj.prettyName(True))
 
         else:
+            # First attempt to download the best result
+            logger.log(u"Downloading best result from " + bestEpisode.url)
+            result = search.snatchEpisode(bestEpisode)
+            providerModule = bestEpisode.provider
 
-            # just use the first result for now
-            logger.log(u"Downloading episode from " + foundEpisode.url)
-            result = search.snatchEpisode(foundEpisode)
-            providerModule = foundEpisode.provider
+            if not result and otherEpisodes:
+                # Attempt to download one of the other results
+                (result, snatchedEpisode) = self._tryDownloadAny(otherEpisodes)
+                providerModule = snatchedEpisode.provider
+
             if not result:
-                ui.notifications.error('Error while attempting to snatch '+foundEpisode.name+', check your logs')
+                ui.notifications.error('Error while attempting to download result for ' + self.ep_obj.prettyName(True) + ', check your logs')
             elif providerModule == None:
                 ui.notifications.error('Provider is configured incorrectly, unable to download')
 
         self.success = result
+
+    def _tryDownloadAny(self, results):
+        for result in results:
+            logger.log(u"Trying alternative result from " + result.url)
+            snatched = search.snatchEpisode(result)
+            
+            if snatched:
+                # Successful download
+                return (snatched, result)
+
+        # Couldn't download anything
+        return None
 
     def finish(self):
         # don't let this linger if something goes wrong
