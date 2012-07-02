@@ -128,11 +128,6 @@ class GenericProvider:
         if data == None:
             return False
 
-        #torrent prelimary check
-        if self.providerType == GenericProvider.TORRENT and data.find("<!DOCTYPE html")!=-1:
-            logger.log("This is not a torrent: "+ self.name + " " + result.url, logger.ERROR)
-            return False
-
         # use the appropriate watch folder
         if self.providerType == GenericProvider.NZB:
             saveDir = sickbeard.NZB_DIR

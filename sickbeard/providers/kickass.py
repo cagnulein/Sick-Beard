@@ -42,7 +42,7 @@ class KICKASSProvider(generic.TorrentProvider):
 
     def __init__(self):
 
-        generic.TorrentProvider.__init__(self, "KICKASS")
+        generic.TorrentProvider.__init__(self, "Kickass")
         
         self.supportsBacklog = True
 
@@ -131,7 +131,7 @@ class KICKASSProvider(generic.TorrentProvider):
                         if len(newItems) < 25:
                             break
                 except Exception, e:
-                    logger.log(u"Error trying to load KICKASS RSS feed: "+str(e).decode('utf-8'), logger.ERROR)
+                    logger.log(u"Error trying to load " + self.name + " RSS feed: "+str(e).decode('utf-8'), logger.ERROR)
                     traceback.print_exc()
            
             results = []
